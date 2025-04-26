@@ -290,7 +290,10 @@
           { initials: "MFM", fullName: "Marta Ferreira Menezes", motivation: "Conhecer e comproender os benefícios das PICS", gender: "Mulher Cis", race: "Preta", disability: "Não", disability_type: null, profession: "Psicóloga e preceptora FESFSUS", pics_known: "Sim", pics_list: ["AURICULOTERAPIA"], pics_practice: ["Formação/Certificação"], health_condition: "Não", medication: "Não (medicamento)", supplement: "Sim (suplemento/vitamina)" },
           { initials: "MBM", fullName: "Marly Bispo de Moraes", motivation: "Aprender mais sobre as PICS e multiplicar os conhecimentos", gender: "Mulher Cis", race: "Parda", disability: "Não", disability_type: null, profession: "Farmacêutica", pics_known: "Sim", pics_list: ["Fitoterapia"], pics_practice: ["Não pratica"], health_condition: "Hipertensão", medication: "Sim (medicamento)", supplement: "Não (medicamento)" },
           { initials: "ACS", fullName: "Anne Caroline Santos", motivation: "Ampliar meus conhecimentos", gender: "Mulher Cis", race: "Preta", disability: "Não", disability_type: null, profession: "Psicologia / Preceptora", pics_known: "Sim", pics_list: ["Auriculoterapia"], pics_practice: ["Formação/Certificação", "Praticante habitual", "Praticante esporádico"], health_condition: "Não", medication: "Não (medicamento)", supplement: "Sim (suplemento/vitamina)" },
-          { initials: "PRSC", fullName: "PAULO RICARDO SILVA CERQUEIRA", motivation: "FUI CONVOCADO A PARTICIPAR", gender: "Homem Cis", race: "Branca", disability: "Não", disability_type: null, profession: "CIRURGIÃO DENTISTA", pics_known: "Não", pics_list: ["Não"], pics_practice: ["Não pratica"], health_condition: "Não", medication: "Não (medicamento)", supplement: "Não (suplemento/vitamina)" }
+          { initials: "PRSC", fullName: "PAULO RICARDO SILVA CERQUEIRA", motivation: "FUI CONVOCADO A PARTICIPAR", gender: "Homem Cis", race: "Branca", disability: "Não", disability_type: null, profession: "CIRURGIÃO DENTISTA", pics_known: "Não", pics_list: ["Não"], pics_practice: ["Não pratica"], health_condition: "Não", medication: "Não (medicamento)", supplement: "Não (suplemento/vitamina)" },
+          // --- New Profile Added Below ---
+          { initials: "TVCC", fullName: "Teresa Vidal Costa Coelho", motivation: "Aprender coisas novas e utilizar no meu processo de trabalho", gender: "Mulher Cis", race: "Branca", disability: "Não", disability_type: null, profession: "Odontológa", pics_known: "Sim", pics_list: ["Auriculoterapia", "ioga"], pics_practice: ["Praticante esporádico"], health_condition: "Não", medication: "Não (medicamento)", supplement: "Não (suplemento/vitamina)" }
+          // --- End New Profile ---
         ];
 
 
@@ -345,7 +348,8 @@
 
              // Groupings based on request
              if (['ACS', 'Agente comunitária de saúde', 'Agente de saúde'].includes(prof)) return 'Agente de Saúde (ACS)';
-             if (['Cirurgiã Dentista', 'CIRURGIÃO-DENTISTA', 'Odontóloga', 'CIRURGIÃO DENTISTA'].includes(prof)) return 'Cirurgião Dentista'; // Merged Odontóloga and fixed capitalization variation
+             // Added 'Odontológa' to the Dentist grouping
+             if (['Cirurgiã Dentista', 'CIRURGIÃO-DENTISTA', 'Odontóloga', 'CIRURGIÃO DENTISTA', 'Odontológa'].includes(prof)) return 'Cirurgião Dentista';
              if (['Fisioterapeuta', 'Fisioterapeuta/Emulti AB'].includes(prof)) return 'Fisioterapeuta';
              if (['Medica', 'Médica', 'Médica de Família e Comunidade'].includes(prof)) return 'Médica';
              if (['Profissional de atendimento integral- Psicologo emult', 'Psicologia / Preceptora', 'Psicóloga - Nasf', 'Psicóloga e preceptora FESFSUS'].includes(prof)) return 'Psicóloga';
