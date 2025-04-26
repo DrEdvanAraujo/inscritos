@@ -202,11 +202,12 @@
 <body>
     <div id="container"></div>
 
-<!-- Música de fundo com YouTube (oculto) -->
-    <div style="display:none;">
-      <iframe id="bgMusic" width="0" height="0" src="https://www.youtube.com/embed/OO2kPK5-qno?autoplay=1&loop=1&playlist=OO2kPK5-qno&mute=1" frameborder="0" allow="autoplay"></iframe>
-    </div>
-	
+<!-- Música de fundo relaxante (MP3) -->
+<audio id="bgMusic" autoplay loop preload="auto" style="display: none;">
+  <source src="https://cdn.pixabay.com/audio/2025/03/18/audio_82f1ce0110.mp3" type="audio/mpeg">
+  Seu navegador não suporta áudio HTML5.
+</audio>
+
     <!-- Filter Panel -->
     <div id="filterPanel">
         <button id="toggleFilters">FILTROS</button>
@@ -281,13 +282,13 @@
           { initials: "VADN", fullName: "Valdir Andrade do Nascimento", motivation: "Conhecer novas práticas integrativas e complementares", gender: "Homem Cis", race: "Preta", disability: "Não", disability_type: null, profession: "ACS", pics_known: "Não", pics_list: ["Não"], pics_practice: ["Não pratica"], health_condition: "Não", medication: "Não (medicamento)", supplement: "Não (suplemento/vitamina)" },
           { initials: "TAR", fullName: "Thatiane Andrade Reis", motivation: "Aprender mais sobre as PICs de modo a ter mais recursos para ofertar aos pacientes.", gender: "Mulher Cis", race: "Parda", disability: "Não", disability_type: null, profession: "Medica", pics_known: "Sim", pics_list: ["Acupuntura"], pics_practice: ["Formação/Certificação"], health_condition: "Não", medication: "Não (medicamento)", supplement: "Não (suplemento/vitamina)" },
           { initials: "RCVJE", fullName: "Rita de Cássia Valentim de Jesus Encarnação", motivation: "Obter conhecimento e habilidades para a prática profissional", gender: "Mulher Cis", race: "Preta", disability: "Não", disability_type: null, profession: "Enfermeira", pics_known: "Sim", pics_list: ["Auriculoterapia"], pics_practice: ["Não pratica"], health_condition: "Não", medication: "Não (medicamento)", supplement: "Não (suplemento/vitamina)" },
-          { initials: "NCC", fullName: "Nadja do céu carvalho", motivation: "Qualificação de práticas que estimulam o bem-estar", gender: "Mulher Cis", race: "Parda", disability: "Não", disability_type: null, profession: "Agente comunitária de saúde", pics_known: "Sim", pics_list: ["Apiterapia"], pics_practice: ["Praticante esporádico"], health_condition: "Não", medication: "Não (medicamento)", supplement: "Não (suplemento/vitamina)" },
+          { initials: "NCC", fullName: "Nadja do céu carvalho", motivation: "Qualificação de práticas que estimulam o bem-estar", gender: "Mulher Cis", race: "Parda", disability: "Não", disability_type: null, profession: "Agente comunitária de saúde", pics_known: "Sim", pics_list: ["Apiterapia"], pics_practice: ["Praticante esporádico"], health_condition: "Não", medication: "Não (medicamento)", supplement: "Não (medicamento)" },
           { initials: "FTB", fullName: "Francislene Torres Batista", motivation: "Conhecer coisas novas e repassar essas informações e podermos ajudar nossos pacientes", gender: "Mulher Cis", race: "Parda", disability: "Não", disability_type: null, profession: "Técnica de Enfermagem", pics_known: "Não", pics_list: ["Não conheço"], pics_practice: ["Não pratica"], health_condition: "Dores musculares", medication: "Não (medicamento)", supplement: "Sim (suplemento/vitamina)" },
           { initials: "FRMC", fullName: "Fernanda Rebouças Maia Costa", motivation: "Conhecer um pouco mais de todas as pics.", gender: "Mulher Cis", race: "Branca", disability: "Não", disability_type: null, profession: "Psicóloga - Nasf", pics_known: "Sim", pics_list: ["Auriculoterapia"], pics_practice: ["Formação/Certificação"], health_condition: "Sim, em recuperação de Sindrome de Burnout", medication: "Sim (medicamento)", supplement: "Sim (suplemento/vitamina)" },
           { initials: "CNMC", fullName: "Carolina Nunes Martins Cerqueira", motivation: "Aprimorar minha prática e novos conhecimentos", gender: "Mulher Cis", race: "Branca", disability: "Não", disability_type: null, profession: "Fisioterapeuta", pics_known: "Sim", pics_list: ["Aromaterapia", "Meditação", "Yoga"], pics_practice: ["Praticante habitual"], health_condition: "Não", medication: "Sim (medicamento)", supplement: "Não (suplemento/vitamina)" },
-          { initials: "CACC", fullName: "Celina Amado Chetto Coutinho", motivation: "Aprender mais sobre as Pics e poder ampliar a atuação", gender: "Mulher Cis", race: "Branca", disability: "Não", disability_type: null, profession: "Assistente Social", pics_known: "Sim", pics_list: ["Acupuntura", "Auriculoterapia", "Terapia de Florais", "Imposição de mãos", "Osteopatia", "Yoga"], pics_practice: ["Praticante habitual"], health_condition: "Dor neuropatica", medication: "Sim (medicamento)", supplement: "Não (suplemento/vitamina)" },
+          { initials: "CACC", fullName: "Celina Amado Chetto Coutinho", motivation: "Aprender mais sobre as Pics e poder ampliar a atuação", gender: "Mulher Cis", race: "Branca", disability: "Não", disability_type: null, profession: "Assistente Social", pics_known: "Sim", pics_list: ["Acupuntura", "Auriculoterapia", "Terapia de Florais", "Imposição de mãos", "Osteopatia", "Yoga"], pics_practice: ["Praticante habitual"], health_condition: "Dor neuropatica", medication: "Sim (medicamento)", supplement: "Não (medicamento)" },
           { initials: "MFM", fullName: "Marta Ferreira Menezes", motivation: "Conhecer e comproender os benefícios das PICS", gender: "Mulher Cis", race: "Preta", disability: "Não", disability_type: null, profession: "Psicóloga e preceptora FESFSUS", pics_known: "Sim", pics_list: ["AURICULOTERAPIA"], pics_practice: ["Formação/Certificação"], health_condition: "Não", medication: "Não (medicamento)", supplement: "Sim (suplemento/vitamina)" },
-          { initials: "MBM", fullName: "Marly Bispo de Moraes", motivation: "Aprender mais sobre as PICS e multiplicar os conhecimentos", gender: "Mulher Cis", race: "Parda", disability: "Não", disability_type: null, profession: "Farmacêutica", pics_known: "Sim", pics_list: ["Fitoterapia"], pics_practice: ["Não pratica"], health_condition: "Hipertensão", medication: "Sim (medicamento)", supplement: "Não (suplemento/vitamina)" },
+          { initials: "MBM", fullName: "Marly Bispo de Moraes", motivation: "Aprender mais sobre as PICS e multiplicar os conhecimentos", gender: "Mulher Cis", race: "Parda", disability: "Não", disability_type: null, profession: "Farmacêutica", pics_known: "Sim", pics_list: ["Fitoterapia"], pics_practice: ["Não pratica"], health_condition: "Hipertensão", medication: "Sim (medicamento)", supplement: "Não (medicamento)" },
           { initials: "ACS", fullName: "Anne Caroline Santos", motivation: "Ampliar meus conhecimentos", gender: "Mulher Cis", race: "Preta", disability: "Não", disability_type: null, profession: "Psicologia / Preceptora", pics_known: "Sim", pics_list: ["Auriculoterapia"], pics_practice: ["Formação/Certificação", "Praticante habitual", "Praticante esporádico"], health_condition: "Não", medication: "Não (medicamento)", supplement: "Sim (suplemento/vitamina)" },
           { initials: "PRSC", fullName: "PAULO RICARDO SILVA CERQUEIRA", motivation: "FUI CONVOCADO A PARTICIPAR", gender: "Homem Cis", race: "Branca", disability: "Não", disability_type: null, profession: "CIRURGIÃO DENTISTA", pics_known: "Não", pics_list: ["Não"], pics_practice: ["Não pratica"], health_condition: "Não", medication: "Não (medicamento)", supplement: "Não (suplemento/vitamina)" }
         ];
@@ -778,7 +779,7 @@
                  <h2>${profile.initials}</h2>
                  <p><strong>Motivação:</strong> <span>${profile.motivation || 'Não informado'}</span></p>
                  <p><strong>Gênero:</strong> <span>${profile.gender || 'Não informado'}</span></p>
-                 <p><strong>Cor/Raça:</strong> <span>${profile.race || 'Não informado'}</span></p>             
+                 <p><strong>Cor/Raça:</strong> <span>${profile.race || 'Não informado'}</span></p>
                  <p><strong>Profissão:</strong> <span>${profile.profession || 'Não informado'}</span></p> <!-- Show original profession -->
                  <p><strong>Conhece PICS:</strong> <span>${profile.pics_known || 'Não informado'}</span></p>
                  ${profile.pics_known === 'Sim' ? `<p><strong>PICS Conhecidas:</strong> ${formatList(profile.pics_list)}</p>` : ''}
@@ -868,84 +869,114 @@
 
         // ---> REVISED Click Logic <---
         function onClick(event) {
-    speechSynthesis.cancel();
+            // Check if the click occurred inside the filter panel
+            if (filterPanel.contains(event.target) && !toggleFiltersBtn.contains(event.target)) {
+                // If the click is inside the filter panel content but not the toggle button,
+                // prevent the click from affecting the 3D scene or deselecting.
+                // This is especially important for clicks on checkboxes or labels inside the panel.
+                return;
+            }
 
-    const rect = renderer.domElement.getBoundingClientRect();
-    const x = event.clientX - rect.left;
-    const y = event.clientY - rect.top;
+            speechSynthesis.cancel(); // Always cancel speech on click within the container or on a cube
 
-    if (x < 0 || x >= rect.width || y < 0 || y >= rect.height) {
-        // Clique fora do canvas: reativa todos os cubos
-        interactiveObjects.forEach(cube => {
-            cube.material.opacity = OPACITY_DEFAULT;
-            cube.material.emissive.setHex(EMISSIVE_DEFAULT);
-            cube.material.needsUpdate = true;
-        });
-        if (selectedCube) {
+            const rect = renderer.domElement.getBoundingClientRect();
+            const x = event.clientX - rect.left;
+            const y = event.clientY - rect.top;
+
+            // Check if the click occurred outside the main 3D container area
+            // This happens when clicking in the empty space next to the panel if it's open,
+            // or just generally outside the Three.js canvas.
+             if (x < 0 || x >= rect.width || y < 0 || y >= rect.height) {
+                // If the click is clearly outside the canvas area
+                 console.log("Click outside canvas/container bounds.");
+                 if (selectedCube) {
+                    removeActiveLight(); // Remove light and stop speech (already done above, but safe)
+                    selectedCube = null; // Deselect the cube
+                    closeModal(); // Close the modal
+                     // Reset appearance of all cubes to default if no filters are active
+                     if (!filtersAreActive) {
+                         interactiveObjects.forEach(cube => {
+                             cube.material.opacity = OPACITY_DEFAULT;
+                             cube.material.emissive.setHex(EMISSIVE_DEFAULT);
+                             cube.material.needsUpdate = true;
+                         });
+                     } else {
+                         // Re-apply filters to restore dimmed/highlighted state
+                         applyFilters();
+                     }
+                }
+                return; // Stop processing if the click is outside the container bounds
+            }
+
+
+            // Map mouse coordinates to normalized device coordinates
+            mouse.x = (x / rect.width) * 2 - 1;
+            mouse.y = -(y / rect.height) * 2 + 1;
+
+            raycaster.setFromCamera(mouse, camera);
+            const intersects = raycaster.intersectObjects(interactiveObjects);
+
+            // Remove the active light and stop speech on *any* click that reaches this point
             removeActiveLight();
-            selectedCube = null;
-            closeModal();
-        }
-        return;
-    }
 
-    mouse.x = (x / rect.width) * 2 - 1;
-    mouse.y = -(y / rect.height) * 2 + 1;
 
-    raycaster.setFromCamera(mouse, camera);
-    const intersects = raycaster.intersectObjects(interactiveObjects);
+            if (intersects.length > 0) {
+                const clickedObject = intersects[0].object;
 
-    if (activePointLight) {
-        removeActiveLight();
-    }
+                // Only allow clicking on cubes that are currently visible (not dimmed by filters)
+                if (clickedObject.material.opacity > OPACITY_UNLIT + 0.01) { // Check opacity threshold
+                    // If a cube is clicked that was already selected, deselect it
+                    if (selectedCube === clickedObject) {
+                         selectedCube = null;
+                         closeModal();
+                          // Restore visibility based on filter state or default
+                         applyFilters(); // Re-apply filters to restore state
+                         return; // Stop processing this click
+                    }
 
-    if (intersects.length > 0) {
-        const clickedObject = intersects[0].object;
+                    // Select the new cube
+                    selectedCube = clickedObject;
 
-        // Só permite clicar em cubos visíveis
-        if (clickedObject.material.opacity > OPACITY_UNLIT + 0.01) {
-            selectedCube = clickedObject;
+                    // Dim all cubes initially
+                    interactiveObjects.forEach(cube => {
+                        cube.material.opacity = OPACITY_UNLIT;
+                        cube.material.emissive.setHex(EMISSIVE_DEFAULT); // Ensure no lingering highlight
+                        cube.material.needsUpdate = true;
+                    });
 
-            // Apaga todos os cubos
-            interactiveObjects.forEach(cube => {
-                cube.material.opacity = OPACITY_UNLIT;
-                cube.material.emissive.setHex(EMISSIVE_DEFAULT);
-                cube.material.needsUpdate = true;
-            });
+                    // Highlight only the clicked cube
+                    selectedCube.material.opacity = OPACITY_DEFAULT; // Make it fully visible
+                    selectedCube.material.emissive.setHex(EMISSIVE_LIT); // Highlight it with emissive color
+                    selectedCube.material.needsUpdate = true;
 
-            // Destaca apenas o cubo clicado
-            selectedCube.material.opacity = OPACITY_DEFAULT;
-            selectedCube.material.emissive.setHex(EMISSIVE_LIT);
-            selectedCube.material.needsUpdate = true;
+                    // Add a point light to the clicked cube
+                    activePointLight = new THREE.PointLight(0xffffff, 1.8, 5); // Color, Intensity, Distance
+                    activePointLight.position.set(0, 0, 0); // Position at the center of the cube
+                    selectedCube.add(activePointLight); // Add light as child of the cube
 
-            activePointLight = new THREE.PointLight(0xffffff, 1.8, 5);
-            activePointLight.position.set(0, 0, 0);
-            selectedCube.add(activePointLight);
+                    // Show the modal with the profile data and trigger TTS
+                    showModal(clickedObject.userData);
 
-            showModal(clickedObject.userData);
-        } else {
-            // Clique em cubo apagado: trata como clique fora
-            interactiveObjects.forEach(cube => {
-                cube.material.opacity = OPACITY_DEFAULT;
-                cube.material.emissive.setHex(EMISSIVE_DEFAULT);
-                cube.material.needsUpdate = true;
-            });
-            if (selectedCube) {
+                } else {
+                    // Clicked on a dimmed cube - treat as a background click
+                    console.log("Clicked on a dimmed cube.");
+                     // Deselect any previously selected cube
+                     selectedCube = null;
+                     closeModal(); // Close modal if open
+                     // Restore visibility based on filter state
+                     applyFilters();
+                }
+            } else {
+                // Clicked on the background (no cube intersected)
+                console.log("Click on background.");
+                // Deselect any previously selected cube
                 selectedCube = null;
-                closeModal();
+                closeModal(); // Close modal if open
+
+                 // Restore visibility based on filter state (or default if no filters)
+                 applyFilters();
             }
         }
-    } else {
-        // Clique no fundo: reativa todos os cubos
-        interactiveObjects.forEach(cube => {
-            cube.material.opacity = OPACITY_DEFAULT;
-            cube.material.emissive.setHex(EMISSIVE_DEFAULT);
-            cube.material.needsUpdate = true;
-        });
-        selectedCube = null;
-        closeModal();
-    }
-}
         // Use the container element for the click listener for better encapsulation
         container.addEventListener('click', onClick);
 
@@ -958,16 +989,29 @@
 
     </script>
 	<script>
-      // Desmuta a música no primeiro clique do usuário
+      // Play music on first user interaction (click)
+      // This script must be *after* the audio tag in the HTML
       document.addEventListener('click', function enableAudioOnce() {
-        const iframe = document.getElementById('bgMusic');
-        if (iframe) {
-          // Troca o src para desmutar (YouTube não aceita volume via script externo)
-          const currentSrc = iframe.src;
-          if (currentSrc.includes('mute=1')) {
-            iframe.src = currentSrc.replace('mute=1', 'mute=0');
+        const audio = document.getElementById('bgMusic');
+        if (audio) { // Check if the audio element exists
+          // Set the volume (0.0 is mute, 1.0 is max)
+          audio.volume = 0.02; // <-- Adjust this value (e.g., 0.1 for quieter, 0.5 for louder)
+
+          if (audio.paused) {
+            audio.play().catch(err => console.log('Autoplay blocked:', err));
+             // Use a small timeout to ensure playback starts before removing listener in some browsers
+             setTimeout(() => {
+                 document.removeEventListener('click', enableAudioOnce);
+                 console.log('Audio enabled on first click.');
+             }, 50); // Small delay
+          } else {
+               // If audio is already playing (maybe from a previous visit or unblocked autoplay)
+               document.removeEventListener('click', enableAudioOnce);
+               console.log('Audio already playing, listener removed.');
           }
-          document.removeEventListener('click', enableAudioOnce);
+        } else {
+            console.log('Audio element not found.');
+             document.removeEventListener('click', enableAudioOnce); // Clean up listener anyway
         }
       });
     </script>
