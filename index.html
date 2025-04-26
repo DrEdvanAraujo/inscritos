@@ -15,39 +15,48 @@
             background-color: #05050a; /* Dark background for stars */
             color: #e0e0e0;
         }
+        /* Remove styles that control container position/width based on modal */
         #container {
             position: absolute;
             top: 0;
-            left: 0;
-            width: 100%; /* Full width initially */
+            left: 0; /* Keep fixed at left 0 */
+            width: 100%; /* Keep full width - it will be visually layered behind panels */
             height: 100%;
             cursor: grab; /* Indicate interactivity */
-            transition: width 0.3s ease-in-out; /* Animate width change */
+            /* Remove width/left transition from container */
+            /* transition: width 0.3s ease-in-out, left 0.3s ease-in-out; */
         }
-        #container.panel-open {
-            width: calc(100% - 300px); /* Adjust width when panel is open */
-        }
+
         #container:active {
             cursor: grabbing;
         }
+
+        /* --- Modal Styles (Changed for Left Panel) --- */
         .modal {
-            position: fixed; /* Use fixed to stay relative to viewport */
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%); /* Center the modal */
-            background: rgba(30, 30, 35, 0.97); /* Slightly more opaque */
+            position: fixed; /* Fixed position relative to viewport */
+            top: 0;
+            left: 0; /* Position on the left */
+            width: 300px; /* Set modal width */
+            height: 100vh; /* Full height */
+            background: rgba(25, 25, 30, 0.95); /* Similar to filter panel */
             color: #e0e0e0;
-            padding: 25px;
-            border-radius: 8px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.7);
-            z-index: 100; /* Ensure modal is above panel */
-            max-width: 500px; /* Slightly wider for motivation text */
-            width: 90%; /* Responsive width */
-            max-height: 90vh; /* Allow slightly more height */
-            overflow-y: auto; /* Add scroll if content overflows */
-            display: none; /* Hidden by default */
-            border: 1px solid #444;
+            padding: 25px 15px; /* Adjusted padding */
+            box-shadow: 5px 0 15px rgba(0,0,0,0.5); /* Shadow on the right side */
+            z-index: 100;
+            max-width: none; /* Remove max-width constraint */
+            /* Use transform for sliding animation */
+            transform: translateX(-300px); /* Start off-screen left */
+            transition: transform 0.3s ease-in-out; /* Add transition */
+            display: flex; /* Use flex for content layout */
+            flex-direction: column;
+            border-right: 1px solid #444; /* Border on the right side */
         }
+
+         /* Class to show the modal with animation */
+         .modal.open {
+             transform: translateX(0);
+         }
+
         .modal h2 {
             margin-top: 0;
             color: #00bfa5; /* Accent color */
@@ -62,34 +71,43 @@
         }
         .modal strong {
             color: #bdbdbd;
-            min-width: 140px; /* Wider label */
+            min-width: 120px; /* Adjusted label width for narrower panel */
             display: inline-block;
-            vertical-align: top; /* Align label top */
+            vertical-align: top;
+            margin-right: 8px; /* Space between label and value */
         }
          .modal span, .modal ul {
              display: inline-block;
-             max-width: calc(100% - 150px); /* Prevent text overflow */
+             max-width: calc(100% - 130px); /* Adjust max-width based on label width */
              vertical-align: top;
+             word-wrap: break-word; /* Break long words */
          }
         .close-btn {
             position: absolute;
-            top: 10px; /* Closer to edge */
-            right: 15px;
+            top: 10px;
+            right: 15px; /* Position on the right of the modal */
             cursor: pointer;
-            font-size: 28px; /* Slightly larger */
+            font-size: 28px;
             font-weight: bold;
             color: #aaa;
             transition: color 0.2s;
             line-height: 1;
+            z-index: 10; /* Ensure close button is clickable */
         }
         .close-btn:hover {
             color: #fff;
         }
-        .modal ul { list-style: none; padding-left: 0; margin-left: 0; margin-top: 0; margin-bottom: 10px; } /* Adjusted list margin */
+        .modal ul { list-style: none; padding-left: 0; margin-left: 0; margin-top: 0; margin-bottom: 10px; }
         .modal li { margin-bottom: 3px; font-size: 0.95em; color: #ccc; }
         .modal li::before { content: "- "; color: #00bfa5; margin-right: 5px; }
 
-        /* --- Filter Panel Styles --- */
+         #profileContent {
+             flex-grow: 1; /* Allow content to fill space and scroll */
+             overflow-y: auto;
+         }
+
+
+        /* --- Filter Panel Styles --- Keep as is */
         #filterPanel {
             position: fixed;
             top: 0;
@@ -304,7 +322,14 @@
         renderer.setSize(window.innerWidth, window.innerHeight);
         renderer.setPixelRatio(window.devicePixelRatio);
         const container = document.getElementById('container');
+        // Append renderer canvas directly to body or a container that doesn't shift
+        // Keeping it in #container, but #container will not shift its left position
         container.appendChild(renderer.domElement);
+        // Ensure the renderer canvas has correct positioning
+        renderer.domElement.style.position = 'absolute';
+        renderer.domElement.style.top = '0';
+        renderer.domElement.style.left = '0'; // Will be updated by onWindowResize
+
 
         // --- Lighting ---
         const ambientLight = new THREE.AmbientLight(0x606060, 1.0); // Slightly brighter ambient
@@ -453,6 +478,9 @@
         const filterContent = document.getElementById('filterContent');
         const toggleFiltersBtn = document.getElementById('toggleFilters');
         const resetFiltersBtn = document.getElementById('resetFilters');
+         const FILTER_PANEL_WIDTH = 300; // Width of the filter panel
+         const COLLAPSED_FILTER_PANEL_WIDTH = 40; // Width of the filter panel handle
+         const MODAL_WIDTH = 300; // Width of the modal panel
 
         function populateFilterOptions() {
             const uniqueStandardizedProfessions = new Set();
@@ -522,7 +550,11 @@
                  const profile = selectedCube.userData;
                  let matches = checkProfileAgainstFilters(profile);
                  if (!matches) {
-                    removeActiveLight(); // Also stops speech
+                    // removeActiveLight() also stops speech
+                    removeActiveLight();
+                     // Also need to deselect the cube and close modal if the *currently selected* cube is filtered out
+                     selectedCube = null;
+                     closeModal(); // This handles modal closing and container resizing/repositioning
                  }
             } else if (!filtersAreActive) {
                  // If filters are cleared, ensure no lingering light if it wasn't the last clicked valid cube
@@ -605,7 +637,8 @@
 
         toggleFiltersBtn.addEventListener('click', () => {
             filterPanel.classList.toggle('collapsed');
-            container.classList.toggle('panel-open'); // Toggle class on container to adjust width
+            // No longer toggle panel-open class on container
+            // container.classList.toggle('panel-open'); // REMOVED
              // Delay resize to allow CSS transition to finish
              setTimeout(() => {
                  onWindowResize();
@@ -652,6 +685,7 @@
         // --- Modal Functions ---
         const modal = document.getElementById('profileModal');
         const profileContentDiv = document.getElementById('profileContent');
+        // const containerElement = document.getElementById('container'); // Removed direct manipulation of container
 
         // --- TTS Setup ---
         let voices = [];
@@ -790,7 +824,11 @@
                  <p><strong>Prática/Formação:</strong> ${formatList(profile.pics_practice)}</p>
 
              `;
-            modal.style.display = 'block'; // Make modal visible
+            modal.style.display = 'flex'; // Make modal visible (use flex for internal scrolling)
+            modal.classList.add('open'); // Add class for animation
+             // Trigger window resize manually to update Three.js renderer position and size
+             onWindowResize();
+
 
             // --- TTS: Prepare and speak the text ---
             // Construct a concise summary for speech synthesis
@@ -844,145 +882,215 @@
 
         // Make closeModal globally accessible for the inline onclick attribute
         window.closeModal = function() {
-            modal.style.display = 'none';
+            modal.classList.remove('open'); // Remove class for animation
+             // Use a timeout to hide the modal *after* the transition finishes
+             setTimeout(() => {
+                modal.style.display = 'none'; // Hide modal after transition
+                // Trigger window resize manually
+                onWindowResize(); // Recalculate renderer size and position
+             }, 310); // Match CSS transition duration
+
             // Stop speech synthesis when the modal is closed manually
             speechSynthesis.cancel();
             // Optional: Remove the light pulse when closing modal manually
-            // removeActiveLight();
+            // removeActiveLight(); // Decided to keep light until another cube or background is clicked
         }
 
         // --- Event Listeners ---
          function onWindowResize() {
-             // Determine the actual rendering area size based on container element
-             const containerWidth = container.clientWidth;
-             const containerHeight = container.clientHeight;
+             const isModalOpen = modal.classList.contains('open'); // Check if modal is visually open (or animating open)
+             const isFilterPanelCollapsed = filterPanel.classList.contains('collapsed');
 
-             if (containerWidth <= 0 || containerHeight <= 0) return; // Avoid errors if container isn't rendered yet
+             const modalCurrentWidth = isModalOpen ? MODAL_WIDTH : 0;
+             const filterPanelCurrentWidth = isFilterPanelCollapsed ? COLLAPSED_FILTER_PANEL_WIDTH : FILTER_PANEL_WIDTH;
+
+             const renderLeft = modalCurrentWidth; // Renderer starts after the modal if modal is open
+             const renderWidth = window.innerWidth - modalCurrentWidth - filterPanelCurrentWidth; // Space between modal and filter panel
+             const renderHeight = window.innerHeight;
+
+             if (renderWidth <= 0 || renderHeight <= 0) {
+                 console.warn("Render area too small or zero.", {renderWidth, renderHeight});
+                 // Potentially hide the renderer or handle this state
+                 renderer.domElement.style.display = 'none';
+                 return; // Prevent errors with zero dimensions
+             } else {
+                  renderer.domElement.style.display = 'block'; // Ensure visible
+             }
+
+
+             // Update renderer size to match the calculated area
+             renderer.setSize(renderWidth, renderHeight);
+
+             // Set renderer's canvas position/style
+             renderer.domElement.style.position = 'absolute'; // Ensure absolute positioning
+             renderer.domElement.style.left = renderLeft + 'px'; // Position based on modal width
+             renderer.domElement.style.top = '0px';   // Keep at the top
+
 
              // Update camera aspect ratio
-             camera.aspect = containerWidth / containerHeight;
+             camera.aspect = renderWidth / renderHeight;
              camera.updateProjectionMatrix();
 
-             // Update renderer size to match the container
-             renderer.setSize(containerWidth, containerHeight);
-             console.log(`Resized renderer to: ${containerWidth}x${containerHeight}`);
+             controls.update(); // Required if enableDamping is true
+
+             console.log(`Resized renderer to: ${renderWidth}x${renderHeight} at left: ${renderLeft}. Modal Open: ${isModalOpen}, Filter Collapsed: ${isFilterPanelCollapsed}`);
 
          }
          window.addEventListener('resize', onWindowResize);
 
 
         // ---> REVISED Click Logic <---
+        // We need to listen for clicks on the *document* or body to catch clicks outside the renderer canvas
+        // but inside the panels or surrounding UI, as the container no longer covers the whole screen.
+        // However, the previous logic of adding the listener to `container` might be simpler if we
+        // only care about clicks *within* the `container`'s visual bounds (which exclude the panels).
+        // Let's stick to the container listener, but ensure its position/size is handled correctly by resize.
+        // Re-evaluating onClick logic:
+        // - If click is on filter panel or modal: do nothing.
+        // - If click is within renderer canvas bounds: process raycast.
+        // - If click is outside renderer canvas bounds but not on panels: treat as background click.
+
         function onClick(event) {
-            // Check if the click occurred inside the filter panel
-            if (filterPanel.contains(event.target) && !toggleFiltersBtn.contains(event.target)) {
-                // If the click is inside the filter panel content but not the toggle button,
-                // prevent the click from affecting the 3D scene or deselecting.
-                // This is especially important for clicks on checkboxes or labels inside the panel.
-                return;
+            // Check if the click occurred inside the filter panel or modal panel
+            // If it's inside either panel, do nothing and return early.
+            if (filterPanel.contains(event.target) || modal.contains(event.target)) {
+                 // Explicitly allow clicks on the modal close button to proceed
+                 if (event.target.closest('.close-btn')) {
+                     // Let the closeModal() function handle this click
+                 } else {
+                     // Click inside a panel, but not the modal close button
+                     console.log("Click inside panel.");
+                     return;
+                 }
             }
 
+
             speechSynthesis.cancel(); // Always cancel speech on click within the container or on a cube
+
 
             const rect = renderer.domElement.getBoundingClientRect();
             const x = event.clientX - rect.left;
             const y = event.clientY - rect.top;
 
-            // Check if the click occurred outside the main 3D container area
-            // This happens when clicking in the empty space next to the panel if it's open,
-            // or just generally outside the Three.js canvas.
+            // Check if the click occurred outside the main 3D container's visible area
+            // (i.e., outside the renderer canvas bounds as determined by getBoundingClientRect)
              if (x < 0 || x >= rect.width || y < 0 || y >= rect.height) {
                 // If the click is clearly outside the canvas area
-                 console.log("Click outside canvas/container bounds.");
+                 console.log("Click outside canvas bounds.");
                  if (selectedCube) {
-                    removeActiveLight(); // Remove light and stop speech (already done above, but safe)
+                    removeActiveLight(); // Remove light and stop speech
                     selectedCube = null; // Deselect the cube
-                    closeModal(); // Close the modal
-                     // Reset appearance of all cubes to default if no filters are active
-                     if (!filtersAreActive) {
-                         interactiveObjects.forEach(cube => {
-                             cube.material.opacity = OPACITY_DEFAULT;
-                             cube.material.emissive.setHex(EMISSIVE_DEFAULT);
-                             cube.material.needsUpdate = true;
-                         });
+                     // Close the modal if it's open, this will also trigger resize/applyFilters
+                     if (modal.classList.contains('open')) {
+                         closeModal();
                      } else {
-                         // Re-apply filters to restore dimmed/highlighted state
+                         // If modal wasn't open, just re-apply filters to reset appearances
                          applyFilters();
+                     }
+                } else {
+                     // If no cube was selected and background outside canvas was clicked, just close modal
+                     if (modal.classList.contains('open')) {
+                         closeModal();
                      }
                 }
                 return; // Stop processing if the click is outside the container bounds
             }
 
 
-            // Map mouse coordinates to normalized device coordinates
-            mouse.x = (x / rect.width) * 2 - 1;
-            mouse.y = -(y / rect.height) * 2 + 1;
+            // Map mouse coordinates to normalized device coordinates RELATIVE TO THE RENDERER CANVAS
+            mouse.x = x / rect.width * 2 - 1;
+            mouse.y = -y / rect.height * 2 + 1;
+
 
             raycaster.setFromCamera(mouse, camera);
             const intersects = raycaster.intersectObjects(interactiveObjects);
 
-            // Remove the active light and stop speech on *any* click that reaches this point
-            removeActiveLight();
-
+            // removeActiveLight(); // Let's keep the light until a *new* cube is selected or background clicked
 
             if (intersects.length > 0) {
                 const clickedObject = intersects[0].object;
 
                 // Only allow clicking on cubes that are currently visible (not dimmed by filters)
-                if (clickedObject.material.opacity > OPACITY_UNLIT + 0.01) { // Check opacity threshold
-                    // If a cube is clicked that was already selected, deselect it
-                    if (selectedCube === clickedObject) {
-                         selectedCube = null;
-                         closeModal();
-                          // Restore visibility based on filter state or default
-                         applyFilters(); // Re-apply filters to restore state
-                         return; // Stop processing this click
-                    }
-
-                    // Select the new cube
-                    selectedCube = clickedObject;
-
-                    // Dim all cubes initially
-                    interactiveObjects.forEach(cube => {
-                        cube.material.opacity = OPACITY_UNLIT;
-                        cube.material.emissive.setHex(EMISSIVE_DEFAULT); // Ensure no lingering highlight
-                        cube.material.needsUpdate = true;
-                    });
-
-                    // Highlight only the clicked cube
-                    selectedCube.material.opacity = OPACITY_DEFAULT; // Make it fully visible
-                    selectedCube.material.emissive.setHex(EMISSIVE_LIT); // Highlight it with emissive color
-                    selectedCube.material.needsUpdate = true;
-
-                    // Add a point light to the clicked cube
-                    activePointLight = new THREE.PointLight(0xffffff, 1.8, 5); // Color, Intensity, Distance
-                    activePointLight.position.set(0, 0, 0); // Position at the center of the cube
-                    selectedCube.add(activePointLight); // Add light as child of the cube
-
-                    // Show the modal with the profile data and trigger TTS
-                    showModal(clickedObject.userData);
-
-                } else {
-                    // Clicked on a dimmed cube - treat as a background click
-                    console.log("Clicked on a dimmed cube.");
-                     // Deselect any previously selected cube
-                     selectedCube = null;
-                     closeModal(); // Close modal if open
-                     // Restore visibility based on filter state
-                     applyFilters();
+                // Check opacity threshold (use a small epsilon for floating point comparison)
+                if (filtersAreActive && clickedObject.material.opacity < OPACITY_DEFAULT - 0.01) {
+                     // Clicked on a dimmed cube - treat as a background click
+                     console.log("Clicked on a dimmed cube.");
+                      // Deselect any previously selected cube
+                      if (selectedCube) {
+                          removeActiveLight();
+                          selectedCube = null;
+                      }
+                      // Close the modal if it's open, this triggers resize/applyFilters
+                      if (modal.classList.contains('open')) {
+                          closeModal();
+                      } else {
+                           // If modal wasn't open, re-apply filters explicitly
+                           applyFilters();
+                      }
+                     return; // Stop processing this click
                 }
-            } else {
-                // Clicked on the background (no cube intersected)
-                console.log("Click on background.");
-                // Deselect any previously selected cube
-                selectedCube = null;
-                closeModal(); // Close modal if open
 
-                 // Restore visibility based on filter state (or default if no filters)
-                 applyFilters();
+
+                // If a cube is clicked that was already selected, deselect it
+                if (selectedCube === clickedObject) {
+                     console.log("Clicked already selected cube.");
+                     removeActiveLight();
+                     selectedCube = null;
+                     closeModal(); // Closes modal, removes .modal-open, resizes, stops speech
+                      // Restore visibility based on filter state or default
+                     applyFilters(); // Re-apply filters to restore state
+                     return; // Stop processing this click
+                }
+
+                // User clicked a NEW, non-dimmed cube
+                console.log("Clicked a new cube.");
+                // Deselect the previous cube if one existed
+                if (selectedCube) {
+                     removeActiveLight(); // Removes light and stops previous speech
+                     // The appearance of the *previous* selected cube will be reset to dimmed/default by the upcoming applyFilters
+                }
+
+                // Select the new cube
+                selectedCube = clickedObject;
+
+                 // Apply filters first to potentially dim other cubes
+                applyFilters();
+
+                 // Ensure the newly selected cube is fully visible and highlighted regardless of filter state
+                 selectedCube.material.opacity = OPACITY_DEFAULT; // Make it fully visible
+                 selectedCube.material.emissive.setHex(EMISSIVE_LIT); // Highlight it with emissive color
+                 selectedCube.material.needsUpdate = true;
+
+
+                // Add a point light to the clicked cube
+                activePointLight = new THREE.PointLight(0xffffff, 1.8, 5); // Color, Intensity, Distance
+                activePointLight.position.set(0, 0, 0); // Position at the center of the cube
+                selectedCube.add(activePointLight); // Add light as child of the cube
+
+                // Show the modal with the profile data and trigger TTS
+                showModal(clickedObject.userData);
+
+            } else {
+                // Clicked on the background (no cube intersected) within the canvas area
+                console.log("Click on canvas background.");
+                // Deselect any previously selected cube
+                if (selectedCube) {
+                    removeActiveLight(); // Removes light and stops speech
+                    selectedCube = null;
+                }
+                // Close modal if open, this triggers resize/applyFilters
+                if (modal.classList.contains('open')) {
+                   closeModal();
+                } else {
+                   // If modal wasn't open, just re-apply filters
+                   applyFilters();
+                }
             }
         }
-        // Use the container element for the click listener for better encapsulation
-        container.addEventListener('click', onClick);
+        // Listen for clicks on the body/document to handle clicks anywhere
+        // document.body.addEventListener('click', onClick); // Could use this, but needs careful handling of clicks *on* panels
+        // Sticking to container for now, but it won't register clicks outside its initial bounds (which is fine if panels cover that)
+         container.addEventListener('click', onClick);
 
 
         // --- Initialization ---
